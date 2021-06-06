@@ -29,7 +29,7 @@ export default {
     display: flex;
     width: 100%;
     text-align: center;
-    font-size: 12px;
+    font-size: 16px;
     /* 上下皆有空白，底部有灰色空白 */
     padding: 10px 0 20px;
     border-bottom: 10px solid #eee;
