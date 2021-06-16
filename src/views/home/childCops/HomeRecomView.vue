@@ -23,7 +23,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* 设置图片大小等 */
 .home_recom {
     display: flex;

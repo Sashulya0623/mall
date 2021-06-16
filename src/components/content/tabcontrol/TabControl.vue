@@ -27,16 +27,19 @@ export default {
   methods: {
     itemClick(index) {
       this.currentIndex = index;
+      // 把index传递给GoodsList组件
+       this.$emit('tabClick', index);
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 /* 设置样式 */
 .tab_control {
   display: flex;
   text-align: center;
+  background-color: #fff;
 }
 
 .item_control {

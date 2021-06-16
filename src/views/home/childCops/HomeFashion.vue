@@ -13,7 +13,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* 设置布局 */
 .fashion img {
    width: 100%;
