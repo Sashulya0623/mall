@@ -31,6 +31,8 @@
     methods:{
         titleClick(index) {
             this.currentIndex = index;
+            // 发送点击事件以及index
+            this.$emit("themeClick",index);
         },
         backClick() {
             this.$router.back();

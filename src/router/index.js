@@ -7,6 +7,8 @@ const Cart = () => import('views/cart/Cart')
 const Category = () => import('views/category/Category')
 const Profile = () => import('views/profile/Profile')
 const Detail = () => import('views/detail/Detail')
+
+
 // 2. 注入vue-router插件
 Vue.use(VueRouter);
 

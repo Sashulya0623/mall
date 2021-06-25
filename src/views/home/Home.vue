@@ -49,11 +49,13 @@ import HomeRecomView from "./childCops/HomeRecomView.vue";
 import HomeFashion from "./childCops/HomeFashion.vue";
 // 2. js文件导入
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
-// 防抖函数导入
-import {debounce} from "common/utils.js";
+// 防抖函数导入  后面从mixin中用到
+// import {debounce} from "common/utils.js";
+import {imgListnerMixin,backTopMixin} from "common/mixin.js";
 
 export default {
   name: "Home", //模板名称
+  mixins:[imgListnerMixin,backTopMixin],
   data() {
     return {
       // 存储请求到的轮播图数据
@@ -70,13 +72,14 @@ export default {
       // 当前商品数据请求，默认为流行页面
       currentType: "pop",
       // 回到顶部按钮
-      istopShow:false,
+      //istopShow:false,
       // tabcontrol
       tabOffsetTop: 0,
       // tabcontrol吸顶效果是否显示
       isTabFixed: false,
       // 保存scroll离开时滑动到的位置
       saveY:0,
+      
     };
   },
   computed: {
@@ -113,8 +116,13 @@ export default {
   deactivated() {
     // <keep-alive></keep-alive>组件被移除时使用
     // console.log('deactivated');
-    // 离开的时候把当前位置保存在saveY中
+    // 1. 离开的时候把当前位置保存在saveY中
     this.saveY = this.$refs.home_scroll.getScrollY();
+
+    // 2. 取消全局事件的监听
+    // 2.1 因为取消全局事件不能只传事件，否则取消所有该事件的监听，还要把对应函数传进去
+    // 2.2 原来是在mounted中监听的，这里把箭头函数提取出来，设置变量homeListener
+    this.$bus.$off("itemImgLoad",this.homeListener);
   },
   created() {
     // 1. 请求首页多个数据
@@ -128,11 +136,8 @@ export default {
   mounted() {
     // 3. 监听商品图片加载事件
     // 3.1 该方法最好写在mounted中，因为created很可能拿不到html标签元素
-    const refresh = debounce(this.$refs.home_scroll.refresh,50);
-    this.$bus.$on("itemImgLoad",() => {
-      //this.$refs.home_scroll.refresh();
-       refresh();
-    })
+    // 放在mixin中了
+                                                                                                                           
   },
   methods: {
     // 事件监听方法
@@ -155,12 +160,12 @@ export default {
 
     },
     // 2. backtop回到顶部
-    backClick() {
+    //backClick() {
       // this.$refs.home_scroll 拿到滑动组件
       // this.$refs.home_scroll.scroll  拿到滑动组件中的scroll对象
       // this.$refs.home_scroll.scroll.scrollTo(0,0,500);
-      this.$refs.home_scroll.scrollTo(0,0);
-    },
+     // this.$refs.home_scroll.scrollTo(0,0);
+    //},
     contentScroll(position) {
       // 1. 判断backTop是否显示
       //console.log(position);
@@ -244,7 +249,7 @@ export default {
   background-color: #fff;
 } */
 
-/* 滑动组件设置高度和溢出隐藏 */
+/* 滑动组件设置高度和溢出隐藏 ：第一种方法 */
 .home_scroll {
   position: absolute;
   /* 标题栏高44 */

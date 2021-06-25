@@ -1,6 +1,10 @@
 <template>
   <div class="listitem" @click="itemClick">
-      <img :src="listItem.show.img" alt="" @load="itemImgLoad">
+      <!--  
+          listItem.show && listItem.show.img - 对应首页图片
+          listItem.image 对应详情页推荐图片
+        -->
+      <img :src="showImg" alt="" @load="itemImgLoad">
       <div class="item_info">
           <p>{{listItem.title}}</p>
           <span class="price">{{listItem.price}}</span>
@@ -31,7 +35,30 @@ export default {
           //console.log("点击");
           // 跳转到详情页  
           // 详情页有个返回  所以用push
-          this.$router.push('/detail/' + this.listItem.iid)
+          //this.$router.push('/detail/' + this.listItem.iid);
+
+        // if(this.listItem.iid) {
+        //     this.$router.push('/detail/' + this.listItem.iid);
+        // } else {
+        //     this.$router.replace('/detail/' + this.listItem.item_id);
+        // }
+
+        if(this.$route.path.indexOf('home') !== -1) {
+            // 首页推荐
+            this.$router.push('/detail/' + this.listItem.iid);
+        } else if(this.$route.path.indexOf('detail') !== -1) {
+            // 没有数据接口  详情页推荐
+            this.$router.replace('/detail/' + this.listItem.item_id);
+        }
+        
+          
+      },
+      
+  },
+  computed:{
+      // 显示图片
+      showImg() {
+          return (this.listItem.show && this.listItem.show.img) || this.listItem.image;
       }
   }
 };
