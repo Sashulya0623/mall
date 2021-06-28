@@ -1,6 +1,7 @@
 module.exports={
     // 设置公共路径
     publicPath: "./",
+    runtimeCompiler: true,
     //配置别名
     configureWebpack:{
       resolve:{
@@ -12,6 +13,7 @@ module.exports={
           'components':'@/components',
           'network':'@/network',
           'views':'@/views',
+          
         }
       }
     }
